@@ -1,0 +1,206 @@
+CREATE DATABASE nomore;
+
+USE nomore;
+
+
+
+CREATE TABLE Users(
+
+	id VARCHAR(6) NOT NULL,
+
+	userName VARCHAR(10),
+
+	password VARCHAR(20),
+
+	CONSTRAINT PRIMARY KEY (id)
+
+)ENGINE=InnoDB;
+
+
+
+CREATE TABLE Items(
+
+	code VARCHAR(6) not null,
+ 
+	description VARCHAR(30),
+
+	unitprice DECIMAL(8,2),
+ 
+	discount DECIMAL(4,2),
+
+	qtyOnHand DECIMAL(5),
+
+	addedDate DATE,
+
+	notes VARCHAR(300),
+
+	CONSTRAINT PRIMARY KEY(code)
+
+)ENGINE=InnoDB;
+
+
+
+CREATE TABLE Employees(
+
+	id VARCHAR(6) NOT NULL,
+
+	name VARCHAR(40),
+
+	nic DECIMAL(9),
+
+	dob VARCHAR(15),
+
+	address VARCHAR(60),
+
+	salary DECIMAL(10,2),
+
+	mobile DECIMAL(10),
+
+	phone DECIMAL(10),
+
+	joinedDate DATE,
+
+	notes VARCHAR(300),
+
+	CONSTRAINT PRIMARY KEY (id)
+
+)ENGINE=InnoDB;
+
+
+
+CREATE TABLE Customers(
+
+	id VARCHAR(6),
+
+	name VARCHAR(40),
+
+	address VARCHAR(60),
+
+	mobile DECIMAL(10),
+
+	phone DECIMAL(10),
+
+	addedDate DATE,
+
+	notes VARCHAR(300),
+
+	CONSTRAINT PRIMARY KEY (id)
+
+)ENGINE=InnoDB;
+
+
+
+CREATE TABLE Orders(
+
+	id VARCHAR(6) NOT NULL,
+
+	customerId VARCHAR(6) NOT NULL,
+
+	addedDate DATE,
+	dueDate DATE,
+
+	discount DECIMAL(4,2),
+
+	invoiceNo VARCHAR(10),
+
+	CONSTRAINT PRIMARY KEY (id),
+
+	CONSTRAINT FOREIGN KEY(customerId) REFERENCES Customers(id) ON DELETE CASCADE ON UPDATE CASCADE
+
+)ENGINE=InnoDB;
+
+
+
+CREATE TABLE OrderDetails(
+
+	orderId VARCHAR(6) NOT NULL,
+
+	itemCode VARCHAR(6) NOT NULL,
+
+	qty INT(11),
+
+	unitPrice DECIMAL(8,2),
+
+	CONSTRAINT PRIMARY KEY (orderId,itemCode),
+
+	CONSTRAINT FOREIGN KEY (orderId) REFERENCES Orders(id)ON DELETE CASCADE ON UPDATE CASCADE,
+
+	CONSTRAINT FOREIGN KEY (itemCode) REFERENCES Items(code)
+
+)ENGINE=InnoDB;
+
+
+
+
+INSERT INTO Users VALUES('U001', 'root', 'asdf');
+
+INSERT INTO Users VALUES('U002', 'Rukshan', 'logmein');
+
+
+
+INSERT INTO Items VALUES('T001','Leather hand bag',1000,5.0,50,'2013-08-25','Note01');
+
+INSERT INTO Items VALUES('T002','Leather back pack',2000,7.0,50,'2013-08-25','Note02');
+
+INSERT INTO Items VALUES('T003','Back pack',1000,8.0,50,'2013-08-25','Note03');
+
+INSERT INTO Items VALUES('T004','Wheeled back pack',1500,5.0,50,'2013-08-25','Note04');
+
+
+
+INSERT INTO Employees VALUES('E001','Chanaka',922901120,'1992-10-16','Mapalagama, Galle', 30000, 0717600072, 0915710431, '2013-08-17','Note01');
+
+INSERT INTO Employees VALUES('E002','Isuru',921601120,'1992-06-14','Ganegoda, Galle', 35000, 0716576062, 0912296998, '2013-08-17','Note02');
+
+INSERT INTO Employees VALUES('E003','Rukshan',921551120,'1992-05-14','Ambalangoda, Galle', 45000, 0757589654, 0912296999, '2013-05-17','Note03');
+
+INSERT INTO Employees VALUES('E004','Buddhi',922701120,'1992-10-01','Imaduwa, Galle', 35000, 0717345672, 0912296990, '2013-08-18','Note03');
+
+
+
+INSERT INTO Customers VALUES('C001','Akon','LA',0717600072,0912222222,'2013-08-06','Note01');
+
+INSERT INTO Customers VALUES('C002','Lil Wayne','LA',0717600072,0912222222,'2013-08-06','Note02');
+
+INSERT INTO Customers VALUES('C003','50 cent','LA',0717600072,0912222222,'2013-08-06','Note03');
+
+INSERT INTO Customers VALUES('C004','Eminem','LA',0717600072,0912222222,'2013-08-06','Note04');
+
+INSERT INTO Orders VALUES('R001','C001','2008-02-15','2008-02-16',10.00,'V001');
+
+INSERT INTO Orders VALUES('R002','C001','2008-02-15','2008-02-16',10.00,'V002');
+INSERT INTO Orders VALUES('R003','C002','2008-02-20','2008-02-16',10.00,'V003');
+
+INSERT INTO Orders VALUES('R004','C002','2008-02-28','2008-02-16',10.00,'V004');
+
+INSERT INTO Orders VALUES('R005','C001','2008-03-20','2008-02-16',10.00,'V005');
+
+INSERT INTO Orders VALUES('R006','C003','2008-04-10','2008-02-16',10.00,'V006');
+
+INSERT INTO Orders VALUES('R007','C004','2008-05-10','2008-02-16',10.00,'V007');
+
+
+
+INSERT INTO OrderDetails VALUES('R001','T001',3,105.00);
+
+INSERT INTO OrderDetails VALUES('R001','T002',5,525.00);
+
+INSERT INTO OrderDetails VALUES('R001','T003',8,995.00);
+
+INSERT INTO OrderDetails VALUES('R001','T006',1,560.00);
+
+INSERT INTO OrderDetails VALUES('R002','T002',4,525.00);
+
+INSERT INTO OrderDetails VALUES('R002','T003',4,995.00);
+
+INSERT INTO OrderDetails VALUES('R002','T008',3,275.00);
+
+INSERT INTO OrderDetails VALUES('R002','T010',7,90.00);
+
+INSERT INTO OrderDetails VALUES('R002','T009',3,90.00);
+
+INSERT INTO OrderDetails VALUES('R003','T001',9,105.00);
+
+INSERT INTO OrderDetails VALUES('R003','T004',6,4100.00);
+
+
